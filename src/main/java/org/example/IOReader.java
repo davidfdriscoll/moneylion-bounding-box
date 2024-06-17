@@ -13,11 +13,11 @@ public class IOReader {
      * and false to a hyphen
      */
     public static boolean[][] parseFromInputStream(InputStream inputStream) {
-        Stream<String> textStream = new BufferedReader(
-                new InputStreamReader(inputStream, StandardCharsets.UTF_8))
-                .lines();
-
-        return textStream.map(string -> {
+        return new BufferedReader(
+            new InputStreamReader(inputStream, StandardCharsets.UTF_8)
+        )
+        .lines()
+        .map(string -> {
             boolean[] array = new boolean[string.length()];
             for (int i = 0; i < string.length(); i++) {
                 array[i] = string.charAt(i) == '*';
