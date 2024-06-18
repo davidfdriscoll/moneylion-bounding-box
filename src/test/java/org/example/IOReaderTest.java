@@ -15,12 +15,7 @@ public class IOReaderTest {
         File initialFile = new File("src/test/resources/groups.txt");
         InputStream fileStream = new FileInputStream(initialFile);
         boolean[][] actualArray = IOReader.parseFromInputStream(fileStream);
-        boolean[][] expectedArray = new boolean[][]{
-                {true, true, false, false, false, false, false, false, false, true, true, true},
-                {false, true, false, false, true, true, false, false, true, true, true, false},
-                {false, false, false, false, false, true, true, true, false, false, true, true},
-                {false, false, false, false, false, false, false, true, true, true, false, false}
-        };
+        boolean[][] expectedArray = TestResources.groupsArray;
         assertArrayEquals(expectedArray, actualArray);
     }
 
@@ -29,12 +24,7 @@ public class IOReaderTest {
         File initialFile = new File("src/test/resources/simple.txt");
         InputStream fileStream = new FileInputStream(initialFile);
         boolean[][] actualArray = IOReader.parseFromInputStream(fileStream);
-        boolean[][] expectedArray = new boolean[][]{
-                {false, false, false, false},
-                {false, true, true, false},
-                {false, true, true, false},
-                {false, false, false, false}
-        };
+        boolean[][] expectedArray = TestResources.simpleArray;
         assertArrayEquals(expectedArray, actualArray);
     }
 }
