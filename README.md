@@ -19,7 +19,7 @@ This project's approach to the takehome challenge breaks the problem into three 
 
 * IOReader: IOReader is a simple class that has a single method `parseFromInputStream` that accepts an InputStream, reads it until it encounters an empty line, and then returns a 2D boolean array of the resulting grid. Per the takehome challenge, IOReader does no input validation to confirm the grid matches the spec.
 * BoundingBoxService: BoundingBoxService has a major method `findBiggestNonOverlappingBoundingBox` that accepts a 2D boolean grid and returns a set of the largest nonoverlapping bounding boxes.
-* Main: Main joins together the IOReader & BoundingBoxService prints the resulting bounding boxes to standard output.
+* Main: Main joins together the IOReader & BoundingBoxService and prints the resulting bounding boxes to standard output.
 
 ## BoundingBoxService
 
@@ -34,4 +34,8 @@ BoundingBoxService contains the core logic. The data passes through three major 
 The project contains unit tests and integration tests.
 
 * Unit tests for both main classes can be found at IOReaderTest and BoundingBoxServiceTest
-* End-to-end integration tests (omitting the final string output) can be found in IntegrationTests. I've added 15 grids for various conditions to files test/resources; IntegrationTests runs through each of those files, parses them, and computes the minimum boundary box.
+* End-to-end integration tests (omitting the final string output) can be found in IntegrationTests. I've added 15 grids for various conditions in files in test/resources; IntegrationTests runs through each of those files, parses them, and computes the minimum boundary box.
+
+## Development
+
+I've used Github issues to mark steps in the development process and created PRs to implement each issue separately. The commit history is a little noisier than I would like because I didn't realize that Github repos don't have "Squash and merge" on by default; the last few commits are cleaner and are closer to my preferred trunk-based development approach.
