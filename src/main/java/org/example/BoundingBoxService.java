@@ -65,7 +65,7 @@ public class BoundingBoxService {
                         nextY >= 0 &&
                         nextY < numRows &&
                         grid[nextY][nextX]
-                        ) {
+                    ) {
                         queue.add(new Node(nextX, nextY));
                     }
                 }
@@ -107,7 +107,10 @@ public class BoundingBoxService {
                 }
                 intervals.put(range, event.box());
             } else {
-                intervals.remove(range);
+                // if the most recent instance of this range is this box, remove it
+                if (intervals.asMapOfRanges().get(range) == event.box()) {
+                    intervals.remove(range);
+                }
             }
         }
 
