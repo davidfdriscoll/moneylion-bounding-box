@@ -27,4 +27,13 @@ public class IOReaderTest {
         boolean[][] expectedArray = TestResources.getSimpleArray();
         assertArrayEquals(expectedArray, actualArray);
     }
+
+    @Test
+    public void testParseFromInputStreamMultipleNewlines() throws FileNotFoundException {
+        File initialFile = new File("src/test/resources/multiple_newlines.txt");
+        InputStream fileStream = new FileInputStream(initialFile);
+        boolean[][] actualArray = IOReader.parseFromInputStream(fileStream);
+        boolean[][] expectedArray = TestResources.getSimpleArray();
+        assertArrayEquals(expectedArray, actualArray);
+    }
 }

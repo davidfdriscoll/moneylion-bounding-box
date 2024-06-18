@@ -1,9 +1,12 @@
 package org.example;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IOReader {
     /**
@@ -12,16 +15,20 @@ public class IOReader {
      * and false to a hyphen
      */
     public static boolean[][] parseFromInputStream(InputStream inputStream) {
-        return new BufferedReader(
-            new InputStreamReader(inputStream, StandardCharsets.UTF_8)
-        )
-        .lines()
-        .map(string -> {
-            boolean[] array = new boolean[string.length()];
-            for (int i = 0; i < string.length(); i++) {
-                array[i] = string.charAt(i) == '*';
+        List<boolean[]> resultList = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            String line = reader.readLine();
+            while (line != null && !line.isEmpty()) {
+                boolean[] array = new boolean[line.length()];
+                for (int i = 0; i < line.length(); i++) {
+                    array[i] = line.charAt(i) == '*';
+                }
+                resultList.add(array);
+                line = reader.readLine();
             }
-            return array;
-        }).toArray(boolean[][]::new);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return resultList.toArray(new boolean[0][]);
     }
 }

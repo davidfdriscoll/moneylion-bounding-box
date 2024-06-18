@@ -87,6 +87,11 @@ public class IntegrationTests {
         diagonals.add(new BoundingBox(new Node(11, 0), new Node(12,1)));
         tests.put("diagonals.txt", diagonals);
 
+        // multiple_newlines.txt
+        Set<BoundingBox> multipleNewlines = new HashSet<>();
+        multipleNewlines.add(new BoundingBox(new Node(1, 1), new Node(2,2)));
+        tests.put("multiple_newlines.txt", multipleNewlines);
+
         for (Map.Entry<String, Set<BoundingBox>> test: tests.entrySet()) {
             String filename = "src/test/resources/" + test.getKey();
             Set<BoundingBox> expectedBoxes = test.getValue();
