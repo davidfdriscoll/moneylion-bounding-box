@@ -1,3 +1,3 @@
 package org.example;
 
-public record BoundingBox(Node topLeft, Node topRight) {}
+public record BoundingBox(Node topLeft, Node bottomRight) {}

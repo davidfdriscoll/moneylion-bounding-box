@@ -15,7 +15,7 @@ public class IOReaderTest {
         File initialFile = new File("src/test/resources/groups.txt");
         InputStream fileStream = new FileInputStream(initialFile);
         boolean[][] actualArray = IOReader.parseFromInputStream(fileStream);
-        boolean[][] expectedArray = TestResources.groupsArray;
+        boolean[][] expectedArray = TestResources.getGroupsArray();
         assertArrayEquals(expectedArray, actualArray);
     }
 
@@ -24,7 +24,7 @@ public class IOReaderTest {
         File initialFile = new File("src/test/resources/simple.txt");
         InputStream fileStream = new FileInputStream(initialFile);
         boolean[][] actualArray = IOReader.parseFromInputStream(fileStream);
-        boolean[][] expectedArray = TestResources.simpleArray;
+        boolean[][] expectedArray = TestResources.getSimpleArray();
         assertArrayEquals(expectedArray, actualArray);
     }
 }
