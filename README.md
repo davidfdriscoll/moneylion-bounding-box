@@ -7,7 +7,7 @@ A description of the takehome challenge can be found at [MoneyLion Java Take Hom
 
 ```
 cd <repo directory>
-mvn target
+mvn package
 java -jar target/moneylion-bounding-box-1.0-SNAPSHOT-jar-with-dependencies.jar < src/test/resources/simple.txt
 ```
 
