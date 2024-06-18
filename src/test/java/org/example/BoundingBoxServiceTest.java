@@ -59,4 +59,57 @@ public class BoundingBoxServiceTest {
 
         assertEquals(expectedBoundingBoxes, nonOverlapping);
     }
+
+    @Test
+    public void testFindLargestBoundingBoxesEmpty() {
+        Set<BoundingBox> emptyList = new HashSet<>();
+        assertEquals(emptyList, BoundingBoxService.findLargestBoundingBoxes(emptyList));
+    }
+
+    @Test
+    public void testFindLargestBoundingBoxesOneBigOneSmall() {
+        BoundingBox bigBox = new BoundingBox(new Node(0, 0), new Node(10,10));
+        BoundingBox smallBox = new BoundingBox(new Node(0, 0), new Node(1,1));
+
+        Set<BoundingBox> expectedBoundingBoxes = new HashSet<>();
+        expectedBoundingBoxes.add(bigBox);
+
+        Set<BoundingBox> allBoxes = new HashSet<>();
+        allBoxes.add(bigBox);
+        allBoxes.add(smallBox);
+
+        assertEquals(expectedBoundingBoxes, BoundingBoxService.findLargestBoundingBoxes(allBoxes));
+    }
+
+    @Test
+    public void testFindLargestBoundingBoxesTwoBig() {
+        BoundingBox bigBox = new BoundingBox(new Node(0, 0), new Node(10,10));
+        BoundingBox equallyBigBox = new BoundingBox(new Node(10, 10), new Node(20,20));
+
+        Set<BoundingBox> allBoxes = new HashSet<>();
+        allBoxes.add(bigBox);
+        allBoxes.add(equallyBigBox);
+
+        assertEquals(allBoxes, BoundingBoxService.findLargestBoundingBoxes(allBoxes));
+    }
+
+    @Test
+    public void findBiggestNonOverlappingBoundingBoxSimple() {
+        boolean[][] array = TestResources.getSimpleArray();
+
+        Set<BoundingBox> expectedBoundingBoxes = new HashSet<>();
+        expectedBoundingBoxes.add(new BoundingBox(new Node(1, 1), new Node(2,2)));
+
+        assertEquals(expectedBoundingBoxes, BoundingBoxService.findBiggestNonOverlappingBoundingBox(array));
+    }
+
+    @Test
+    public void findBiggestNonOverlappingBoundingBoxGroups() {
+        boolean[][] array = TestResources.getGroupsArray();
+
+        Set<BoundingBox> expectedBoundingBoxes = new HashSet<>();
+        expectedBoundingBoxes.add(new BoundingBox(new Node(0, 0), new Node(1,1)));
+
+        assertEquals(expectedBoundingBoxes, BoundingBoxService.findBiggestNonOverlappingBoundingBox(array));
+    }
 }

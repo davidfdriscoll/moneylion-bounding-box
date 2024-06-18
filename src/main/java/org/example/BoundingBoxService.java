@@ -7,41 +7,10 @@ import com.google.common.collect.RangeMap;
 import com.google.common.collect.TreeRangeMap;
 
 public class BoundingBoxService {
-    public static Set<BoundingBox> findNonOverlappingBoundingBoxes(List<BoundingBox> boxes) {
-        List<Event> events = new LinkedList<>();
-
-        for (BoundingBox box: boxes) {
-            int x1 = box.topLeft().x();
-            int x2 = box.bottomRight().x();
-            int y1 = box.topLeft().y();
-            int y2 = box.bottomRight().y();
-            events.add(new Event(x1, y1, y2, true, box));
-            events.add(new Event(x2, y1, y2, false, box));
-        }
-
-        Collections.sort(events);
-
-        Set<BoundingBox> nonOverlappingBoundingBoxes = new HashSet<>();
-        RangeMap<Integer, BoundingBox> intervals
-                = TreeRangeMap.create();
-
-        for (Event event: events) {
-            Range<Integer> range = Range.closed(event.y1(), event.y2());
-            if (event.isStart()) {
-                RangeMap<Integer, BoundingBox> overlaps = intervals.subRangeMap(range);
-                Collection<BoundingBox> overlappingBoxes = overlaps.asMapOfRanges().values();
-                if (overlappingBoxes.isEmpty()) {
-                    nonOverlappingBoundingBoxes.add(event.box());
-                } else {
-                    nonOverlappingBoundingBoxes.removeAll(overlappingBoxes);
-                }
-                intervals.put(range, event.box());
-            } else {
-                intervals.remove(range);
-            }
-        }
-
-        return nonOverlappingBoundingBoxes;
+    public static Set<BoundingBox> findBiggestNonOverlappingBoundingBox(boolean[][] grid) {
+        List<BoundingBox> allBoxes = findBoundingBoxes(grid);
+        Set<BoundingBox> nonOverlappingBoxes = findNonOverlappingBoundingBoxes(allBoxes);
+        return findLargestBoundingBoxes(nonOverlappingBoxes);
     }
 
     public static List<BoundingBox> findBoundingBoxes(boolean[][] grid) {
@@ -106,5 +75,59 @@ public class BoundingBoxService {
         Node topLeft = new Node(left, top);
         Node bottomRight = new Node(right, bottom);
         return new BoundingBox(topLeft, bottomRight);
+    }
+
+    public static Set<BoundingBox> findNonOverlappingBoundingBoxes(List<BoundingBox> boxes) {
+        List<Event> events = new LinkedList<>();
+
+        for (BoundingBox box: boxes) {
+            int x1 = box.topLeft().x();
+            int x2 = box.bottomRight().x();
+            int y1 = box.topLeft().y();
+            int y2 = box.bottomRight().y();
+            events.add(new Event(x1, y1, y2, true, box));
+            events.add(new Event(x2, y1, y2, false, box));
+        }
+
+        Collections.sort(events);
+
+        Set<BoundingBox> nonOverlappingBoundingBoxes = new HashSet<>();
+        RangeMap<Integer, BoundingBox> intervals
+                = TreeRangeMap.create();
+
+        for (Event event: events) {
+            Range<Integer> range = Range.closed(event.y1(), event.y2());
+            if (event.isStart()) {
+                RangeMap<Integer, BoundingBox> overlaps = intervals.subRangeMap(range);
+                Collection<BoundingBox> overlappingBoxes = overlaps.asMapOfRanges().values();
+                if (overlappingBoxes.isEmpty()) {
+                    nonOverlappingBoundingBoxes.add(event.box());
+                } else {
+                    nonOverlappingBoundingBoxes.removeAll(overlappingBoxes);
+                }
+                intervals.put(range, event.box());
+            } else {
+                intervals.remove(range);
+            }
+        }
+
+        return nonOverlappingBoundingBoxes;
+    }
+
+    public static Set<BoundingBox> findLargestBoundingBoxes(Set<BoundingBox> boxes) {
+        Set<BoundingBox> biggestBoxes = new HashSet<>();
+        int biggestSize = 0;
+
+        for (BoundingBox box: boxes) {
+            if (box.area() == biggestSize) {
+                biggestBoxes.add(box);
+            } else if (box.area() > biggestSize) {
+                biggestBoxes = new HashSet<>();
+                biggestBoxes.add(box);
+                biggestSize = box.area();
+            }
+        }
+
+        return biggestBoxes;
     }
 }
